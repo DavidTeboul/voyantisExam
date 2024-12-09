@@ -32,13 +32,15 @@ app.get('/api/queues', async (req, res) => {
   });
 
 
-app.post('/api/:queue_name', async(req,res) => {
+app.post('/api/:queue_name', async (req, res) => {
   const queueName = req.params.queue_name;
-  const message = req.body.message;  // Expecting { message: "some text" }
+  const message = req.body.message; // Expecting { message: "some text" }
+
   if (!queues[queueName]) {
-    queues[queueName] = [];
+    return res.status(404).send("Queue not found");
   }
-  queues[queueName].push(message);  // Add message to the queue
+
+  queues[queueName].push(message); // Add message to the queue
   res.status(201).send("Message added to queue");
 });
 
@@ -65,4 +67,3 @@ app.listen(port, () => {
     console.log(`Backend server is running at http://localhost:${port}`);
   });
 
-// https://randomuser.me/api/?results=5000
