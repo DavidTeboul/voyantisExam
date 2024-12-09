@@ -9,28 +9,23 @@ function App() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchQueues(); // Fetch users when page or limit changes
+    fetchQueues();
   }, []);
 
   const fetchQueues = () => {
     setLoading(true);
-    // Set loading to true when starting the fetch
     setError(null);
-    // Reset any previous errors
     axios
       .get(`http://localhost:3000/api/queues`)
       .then((response) => {
-        setQueues(response.data);  // Set the queues data from the response
-        console.log(queues)
-        setLoading(false);          // Set loading to false when finished
+        setQueues(response.data);
+        setLoading(false);
       })
       .catch((error) => {
-        setError("Error fetching queues: " + error.message);  
-        // Handle error
-        setLoading(false);  // Set loading to false even on error
+        setError("Error fetching queues: " + error.message);
+        setLoading(false);
       });
   };
-  
 
   const fetchMessage = async () => {
     try {
@@ -39,13 +34,11 @@ function App() {
       );
       if (response.status === 200) {
         setMessage(response.data.message);
-        // Assuming the message is sent directly in the response body
       } else {
         setMessage("No message available");
       }
     } catch (error) {
-      console.error("Error fetching message:", error);
-      // Optionally, display an error message to the user
+      setMessage("Error fetching message");
     }
   };
 
@@ -64,8 +57,7 @@ function App() {
           onChange={(e) => setSelectedQueue(e.target.value)}
           value={selectedQueue}
         >
-          <option value="">Select a queue</option>{" "}
-          {/* Add a default option */}
+          <option value="">Select a queue</option>
           {queues.map((queue) => (
             <option key={queue.name} value={queue.name}>
               {queue.name} ({queue.messageCount} messages)
