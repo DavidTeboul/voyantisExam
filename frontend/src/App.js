@@ -8,14 +8,15 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-
   useEffect(() => {
     fetchQueues(); // Fetch users when page or limit changes
   }, []);
 
   const fetchQueues = () => {
-    setLoading(true);  // Set loading to true when starting the fetch
-    setError(null);    // Reset any previous errors
+    setLoading(true);
+    // Set loading to true when starting the fetch
+    setError(null);
+    // Reset any previous errors
     axios
       .get(`http://localhost:3000/api/queues`)
       .then((response) => {
@@ -24,7 +25,8 @@ function App() {
         setLoading(false);          // Set loading to false when finished
       })
       .catch((error) => {
-        setError("Error fetching queues: " + error.message);  // Handle error
+        setError("Error fetching queues: " + error.message);  
+        // Handle error
         setLoading(false);  // Set loading to false even on error
       });
   };
@@ -36,7 +38,8 @@ function App() {
         `http://localhost:3000/api/${selectedQueue}?timeout=10000`
       );
       if (response.status === 200) {
-        setMessage(response.data); // Assuming the message is sent directly in the response body
+        setMessage(response.data.message);
+        // Assuming the message is sent directly in the response body
       } else {
         setMessage("No message available");
       }
